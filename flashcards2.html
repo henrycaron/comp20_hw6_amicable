@@ -2,60 +2,64 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Flash Cards</title>
-	<style type="text/css">
-		html,body,input {font-size:30px;}
-	</style>
+<title>Untitled Document</title>
+	
 	<script language="javascript">
-		function calculate()
-		{
-			//alert("it worked!");
-			n1 = document.form1.num1.value;
-			n1 = parseInt(n1);
-			n2 = document.getElementById("num2").value;
-			//alert (n1 + parseInt(n2));
-			r = n1 + parseInt(n2);
-			answer = document.getElementById("result").value;
-			if (answer == r)
-				alert("Yay!");
-			else
-				alert ("try again");
+	function factors(n){
+		var num_factors = [], i;
+
+		for (i = 1; i <= Math.floor(Math.sqrt(n)); i += 1){
+			if (n % i === 0){
+				num_factors.push(i);
+				if (n / i !== i)
+					num_factors.push(n / i);
+			}
+	 		num_factors.sort((a, b) => a - b);  // numeric sort
 		}
-		function getRand(minValue, maxValue)
-		{
-			range = maxValue - minValue;
-			n = Math.random() * range + minValue;
-			n = parseInt(n);
-			//alert(n)
-			return n;
+		return num_factors;
+	}
+		
+	function amicable(){
+		var n1 = parseInt(document.form1.number1.value);
+		var n2 = parseInt(document.form1.number2.value);
+		var factors1 = factors(n1);
+		console.log(factors1);
+		var factors2 = factors(n2);
+		n1_sum = 0;
+		n2_sum = 0;
+		for(var i = 0; i < factors1.length; i++)
+			n1_sum = n1_sum + factors1[i];
+		for(var i = 0; i < factors2.length; i++)
+			n2_sum = n2_sum + factors2[i];
+		if(n1_sum == n2_sum){
+			document.getElementById("is_amicable").innerHTML = "These numbers are amicable. They both add to " + n1_sum +  ".";
 		}
-		n1 = getRand(1, 12);
-		n2 = getRand(1, 12);
+		else{
+			document.getElementById("is_amicable").innerHTML = "These numbers aren't amicable. " + n1_sum + " doesn't equal " + n2_sum + ".";
+		}
+			
+		document.getElementById("factor1").innerHTML = factors1;
+		document.getElementById("factor2").innerHTML = factors2;
+
+
+	}
+	
 	</script>
 </head>
 
 <body>
-
-	
 	<form name="form1">
-		Number 1 &nbsp;&nbsp;
-		<script language="javascript">
-		document.write ('<input type="text" name="num1" id="num1" value="' + n1 + '">');
-		</script>	
-			<br />
-		Number 2 &nbsp;&nbsp;
-		<script language="javascript">
-		document.write ('<input type="text" name="num2" id="num2" value="' + n2 + '">');
-		</script>	
-		<hr />
-		Result <input type="text" name="result" id="result">
-		
-		<br /><br />
-		<input type="button" value = "Check My Answer" 
-			   onclick ="calculate()">
-
-
-
-	</form>
+		Number 1: &nbsp;&nbsp;
+		<input type="text" name="number1" id="number1" /><br /> <br/> <br/>
+		Number 2: &nbsp;&nbsp;
+		<input type="text" name="number2" id="number2" /><br /> <br/> <br/>
+		<input type="button" value = "Get Factors" 
+			   onclick ="amicable()">
+	</form> <br/>
+	Factors of Number 1: <span id="factor1"></span><br/>
+	Factors of Number 2: <span id="factor2"></span><br/><br/>
+	
+	<span id="is_amicable"></span>
+	
 </body>
 </html>
